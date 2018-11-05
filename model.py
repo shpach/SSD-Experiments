@@ -1,6 +1,7 @@
 from keras.applications.vgg19 import VGG19, preprocess_input
 from keras.models import Model, Input
 from keras import backend as K
+from utils import timeit
 
 class SsdModel(object):
 	""""""
@@ -24,24 +25,28 @@ class SsdModel(object):
 			return K.sum(K.log(y_true) - K.log(y_pred))
 
 		ssd_model.compile(optimizer = "adam", loss = ssd_loss, metrics = ["accuracy", accuracy])
-		vgg19.summary()
+		#vgg19.summary()
 		ssd_model.summary()
 		self.model = ssd_model
 
 
 		
-
+	@timeit
 	def preprocess(X):
 		X = preprocess_input(X)
 		return X
 
-	def train(X, y):
-		X = preprocess(X)
-		self.model.fit(X_train, y_train, batch_size = 128, epochs = 5, validation_data = (X_val, y_val), verbose = 1)
+	@timeit
+	def train(self, X, y):
+		#X = preprocess(X)
+		#self.model.fit(X, y, batch_size = 128, epochs = 5, validation_data = (X_val, y_val), verbose = 1)
+		pass
 
-	def test(X):
-		y_pred = self.model.predict(X)
-		return y_pred
+	@timeit
+	def test(self, X):
+		# y_pred = self.model.predict(X)
+		# return y_pred
+		pass
 
 
 		
