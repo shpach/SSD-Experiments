@@ -12,6 +12,7 @@ class SsdModel(object):
 			layer.trainable = False
 
 		feats_extracted = vgg19(raw_images)
+		print(dir(feats_extracted))
 
 		# TODO: Add more complicated SSD logic here
 		output = feats_extracted

@@ -13,6 +13,7 @@ class Config(object):
 		self.num_samples = int(cfg["DEFAULT"]["NUM_SAMPLES"])
 
 		# VOC07 config
+		self.shufflevoc07 = cfg["VOC07"].getboolean("SHUFFLE")
 		self.trainsetvoc07 = cfg["VOC07"]["TRAIN_SET"]
 		self.testsetvoc07 = cfg["VOC07"]["TEST_SET"]
 		self.trainvoc07datadir = cfg["VOC07"]["TRAIN_VOC07_DATA_DIR"]
@@ -24,7 +25,7 @@ def main():
 
 	# Retrieve data
 	data = DataReader(config)
-	train_data = data.getVOC07TrainData()
+	train_data = data.getVOC07TrainData(shuffle=config.shufflevoc07)
 	test_data = data.getVOC07TestData()
 
 	# TODO: Preprocess/format data for training

@@ -5,6 +5,7 @@ Test Dataset: http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007
 
 import os
 import cv2
+import random
 import xml.etree.ElementTree as ET
 from utils import timeit
 
@@ -34,11 +35,17 @@ class DataReader(object):
 			self.test_list = f.read().splitlines()
 
 	@timeit
-	def getVOC07TrainData(self):
+	def getVOC07TrainData(self, shuffle=True):
 		train_data = {}
+		
+		if shuffle:
+			random.shuffle(self.train_list)
+
 		for sample in self.train_list:
+			# Store data as picture and annotation
 			train_data[sample] = {}
 
+			# Get each data point individually
 			train_img = self.voc07_train_imgs + sample + ".jpg"
 			train_ann = self.voc07_train_anns + sample + ".xml"
 
@@ -55,8 +62,10 @@ class DataReader(object):
 	def getVOC07TestData(self):
 		test_data = {}
 		for sample in self.test_list:
+			# Store data as picture and annotation
 			test_data[sample] = {}
 
+			# Get each individual data point's picture and annotation
 			test_img = self.voc07_test_imgs + sample + ".jpg"
 			test_ann = self.voc07_test_anns + sample + ".xml"
 
