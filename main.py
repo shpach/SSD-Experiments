@@ -11,13 +11,15 @@ class Config(object):
 
 		# Generic config
 		self.num_samples = int(cfg["DEFAULT"]["NUM_SAMPLES"])
+		dataset_to_use = cfg["DEFAULT"]["DATASET"]
+		dset_cfg = cfg[dataset_to_use]
 
-		# VOC07 config
-		self.shufflevoc07 = cfg["VOC07"].getboolean("SHUFFLE")
-		self.trainsetvoc07 = cfg["VOC07"]["TRAIN_SET"]
-		self.testsetvoc07 = cfg["VOC07"]["TEST_SET"]
-		self.trainvoc07datadir = cfg["VOC07"]["TRAIN_VOC07_DATA_DIR"]
-		self.testvoc07datadir = cfg["VOC07"]["TEST_VOC07_DATA_DIR"]
+		self.shuffle = dset_cfg.getboolean("SHUFFLE")
+		self.n_classes = int(dset_cfg["N_CLASSES"])
+		self.trainset = dset_cfg["TRAIN_SET"]
+		self.testset = dset_cfg["TEST_SET"]
+		self.traindatadir = dset_cfg["TRAIN_DATA_DIR"]
+		self.testdatadir = dset_cfg["TEST_DATA_DIR"]
 
 
 def main():
@@ -25,7 +27,9 @@ def main():
 
 	# Retrieve data
 	data = DataReader(config)
-	train_data = data.getVOC07TrainData(shuffle=config.shufflevoc07)
+	# model = SsdModel(config.n_classes)
+	# return
+	train_data = data.getVOC07TrainData(shuffle=config.shuffle)
 	test_data = data.getVOC07TestData()
 
 	# TODO: Preprocess/format data for training
@@ -35,7 +39,7 @@ def main():
 	X_test = test_data
 
 	# Train model
-	model = SsdModel()
+	model = SsdModel(config.n_classes)
 	model.train(X_train, y_train)
 	model.test(X_test)
 	showSampleData(train_data)

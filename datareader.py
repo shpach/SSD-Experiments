@@ -17,13 +17,13 @@ class DataReader(object):
 	""" Data ingestion for model """
 	def __init__(self, config):
 		num_samples = config.num_samples
-		voc07_train_list = config.trainvoc07datadir + VOC07_FNAMES + config.trainsetvoc07 + ".txt"
-		voc07_test_list = config.testvoc07datadir + VOC07_FNAMES + config.testsetvoc07 + ".txt"
+		voc07_train_list = config.traindatadir + VOC07_FNAMES + config.trainset + ".txt"
+		voc07_test_list = config.testdatadir + VOC07_FNAMES + config.testset + ".txt"
 
-		self.voc07_train_imgs = config.trainvoc07datadir + VOC07_IMG_DIR
-		self.voc07_train_anns = config.trainvoc07datadir + VOC07_ANN_DIR
-		self.voc07_test_imgs = config.testvoc07datadir + VOC07_IMG_DIR
-		self.voc07_test_anns = config.testvoc07datadir + VOC07_ANN_DIR
+		self.voc07_train_imgs = config.traindatadir + VOC07_IMG_DIR
+		self.voc07_train_anns = config.traindatadir + VOC07_ANN_DIR
+		self.voc07_test_imgs = config.testdatadir + VOC07_IMG_DIR
+		self.voc07_test_anns = config.testdatadir + VOC07_ANN_DIR
 
 		self.imgs = []
 		self.anns = []
