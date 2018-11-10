@@ -1,4 +1,4 @@
-# COMS4995-Final-Project
+# SSD-Experiments
 An SSD network to apply on video, with KCF tracking as smoothing between frames.
 
 The default config works with the following directory structure:
