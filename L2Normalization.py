@@ -39,8 +39,8 @@ class L2Normalization(Layer):
         The scaled tensor. Same shape as the input tensor.
 
     References:
+        Source: https://github.com/pierluigiferrari/ssd_keras/blob/master/keras_layers/keras_layer_L2Normalization.py
         http://cs.unc.edu/~wliu/papers/parsenet.pdf
-        https://github.com/pierluigiferrari/ssd_keras/blob/master/keras_layers/keras_layer_L2Normalization.py
     '''
 
     def __init__(self, gamma_init=20, **kwargs):

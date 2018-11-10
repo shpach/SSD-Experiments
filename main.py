@@ -27,8 +27,9 @@ def main():
 
 	# Retrieve data
 	data = DataReader(config)
-	# model = SsdModel(config.n_classes)
-	# return
+  
+	model = SsdModel(config.n_classes)
+
 	train_data = data.getVOC07TrainData(shuffle=config.shuffle)
 	test_data = data.getVOC07TestData()
 

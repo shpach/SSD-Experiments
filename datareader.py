@@ -6,6 +6,7 @@ Test Dataset: http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007
 import os
 import cv2
 import random
+import numpy as np
 import xml.etree.ElementTree as ET
 from utils import timeit
 
@@ -25,11 +26,16 @@ class DataReader(object):
 		self.voc07_test_imgs = config.testdatadir + VOC07_IMG_DIR
 		self.voc07_test_anns = config.testdatadir + VOC07_ANN_DIR
 
-		self.imgs = []
-		self.anns = []
+		self.voc07classes = [ 	"BACKGROUND", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", 
+								"diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"
+							]
+
+		# Fast class one hot encoder
+		self.voc07classmap = {elem: idx for idx, elem in enumerate(self.voc07classes)}
+		self.ohe_classes = np.eye(config.n_classes + 1)
 
 		with open(voc07_train_list) as f:
-			self.train_list = f.read().splitlines()[:(num_samples == -1 if None else num_samples)]
+			self.train_list = f.read().splitlines()[:(None if (num_samples == -1) else num_samples)]
 
 		with open(voc07_test_list) as f:
 			self.test_list = f.read().splitlines()
@@ -51,8 +57,10 @@ class DataReader(object):
 
 			img = readVOC07Image(train_img)
 			objects, bboxes = readVOC07Annotation(train_ann)
+			objs_enc = list(map(encode_class, objects))
 			train_data[sample] = {	"image": img, 
 									"objects": objects, 
+									"objs_enc": objs_enc,
 									"boxes": bboxes
 								}
 
@@ -71,12 +79,19 @@ class DataReader(object):
 
 			img = readVOC07Image(test_img)
 			objects, bboxes = readVOC07Annotation(test_ann)
+			objs_enc = list(map(encode_class, objects))
 			test_data[sample] = {	"image": img, 
 									"objects": objects, 
+									"objs_enc": objs_enc,
 									"boxes": bboxes
 								}
 
 		return test_data
+
+	# Perform a one-hot encoding of the class categorical variables
+	def encode_class(self, obj_class):
+		class_idx = self.voc07classmap[obj_class]
+		return self.ohe_classes[class_idx]
 
 
 """ Helper functions """

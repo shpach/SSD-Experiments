@@ -7,10 +7,6 @@ The default config works with the following directory structure:
 
 .
 ├── README.md
-├── __pycache__
-│   ├── datareader.cpython-36.pyc
-│   ├── model.cpython-36.pyc
-│   └── utils.cpython-36.pyc
 ├── config.ini
 ├── data
 │   └── VOC2007
